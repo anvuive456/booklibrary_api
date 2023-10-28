@@ -1,0 +1,109 @@
+generator client {
+  provider = "prisma-client-js"
+  // output   = "./generated/prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = "postgresql://antran:1234@localhost:5432/booklibrary?schema=public"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  username  String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  role    Role
+  profile Profile?
+  tickets Ticket[]
+}
+
+enum Role {
+  member
+  librarian
+  admin
+}
+
+model Profile {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  firstName String
+  lastName  String
+  phone     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  userId  String @unique
+  user    User   @relation(fields: [userId], references: [id])
+  mediaId String @unique
+  media   Media  @relation(fields: [mediaId], references: [id])
+}
+
+model Book {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  publisher   String
+  author      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @default(now())
+  epub        String   @default("")
+
+  categoryId String   @unique
+  category   Category @relation(fields: [categoryId], references: [id])
+  tickets    Ticket[]
+  media      Media    @relation(fields: [mediaId], references: [id])
+  mediaId    String   @unique
+  priceId    String
+  price      Price    @relation(fields: [priceId], references: [id])
+}
+
+model Price {
+  id    String    @id @default(cuid())
+  value Decimal   @default(0.0)
+  unit  PriceUnit @default(VND)
+
+  book Book[]
+}
+
+enum PriceUnit {
+  VND
+  USD
+  EURO
+}
+
+model Media {
+  id        String @id @default(cuid())
+  thumbnail String
+  image     String
+  blurhash  String
+  imageH    Int
+  imageW    Int
+  metadata  Json?
+
+  profile Profile?
+  book    Book?
+}
+
+model Category {
+  id   String @id @default(cuid())
+  name String
+  slug String
+
+  book Book?
+}
+
+model Ticket {
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @default(now())
+  rentDate   DateTime
+  returnDate DateTime
+  bookId     String   @unique
+  userId     String   @unique
+  book       Book     @relation(fields: [bookId], references: [id])
+  user       User     @relation(fields: [userId], references: [id])
+
+  @@id([bookId, userId])
+}

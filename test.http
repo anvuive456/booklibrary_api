@@ -1,0 +1,74 @@
+###Sign up
+POST {{url}}/api/auth/librarian/sign-up
+Content-Type: application/json
+
+{
+  "username": "librarian",
+  "password": "Antran123!"
+}
+
+###Sign In
+POST  {{url}}/api/auth/sign-in
+Content-Type: application/json
+
+{
+  "username": "librarian",
+  "password": "antran123"
+}
+
+###Get me
+GET {{url}}/api/auth/me
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+###Get books
+GET {{url}}/api/books
+Authorization: Bearer {{token}}
+
+###Get detail book
+GET {{url}}/api/books/123
+Authorization: Bearer {{token}}
+
+
+
+###Get categories
+GET {{url}}/api/categories
+
+###Create category
+POST {{url}}/api/categories
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "name": "Truyện thiếu nhi"
+}
+
+###Delete category
+DELETE {{url}}/api/categories/cllhrqp3a0000izozkyfc4css
+Authorization: Bearer {{token}}
+
+
+###Get tickets
+GET {{url}}/api/tickets
+Authorization: Bearer {{token}}
+
+###Create ticket
+POST {{url}}/api/tickets
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "bookId": "cllhvkwac0000izlns47e7cn8"
+}
+
+
+###Create media
+POST {{url}}/api/media
+Content-Type: multipart/form-data boundary=MyBoundary
+
+--MyBoundary
+Content-Disposition: form-data; name="file"; filename="image.jpg"
+
+{{file contents here}}
+
+--MyBoundary--

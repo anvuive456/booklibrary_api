@@ -1,0 +1,6 @@
+-- AlterTable
+ALTER TABLE "Address" ADD COLUMN     "city" TEXT NOT NULL DEFAULT '',
+ADD COLUMN     "country" TEXT NOT NULL DEFAULT '',
+ADD COLUMN     "province" TEXT NOT NULL DEFAULT '',
+ADD COLUMN     "state" TEXT NOT NULL DEFAULT '',
+ADD COLUMN     "street" TEXT NOT NULL DEFAULT '';
